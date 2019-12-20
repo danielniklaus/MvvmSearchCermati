@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CermatiTes</string>
+    <string name="search_github_user">Search Github User</string>
+    <string name="retry">Retry</string>
+    <string name="empty_search_result">Maaf User <b>%s</b> tidak ditemukan</string>
+    <string name="unknown_error">Unknown Error</string>
+</resources>
