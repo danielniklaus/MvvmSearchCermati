@@ -9,16 +9,29 @@ import com.danielniklaus.cermatites.util.Constants
 import com.danielniklaus.cermatites.util.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module(includes = [ViewModelModule::class])
-class AppModule {
+class  AppModule {
     @Singleton
     @Provides
     fun provideApiService(): ApiService {
+        val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
+            Timber.i(it)
+        }).apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val okHttpClient = OkHttpClient
+            .Builder()
+            .addInterceptor(interceptor)
+            .build()
         return Retrofit.Builder()
+            .client(okHttpClient)
             .baseUrl(Constants.ENDPOINT)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
